@@ -14,7 +14,7 @@
     ]];
 */
 
-$default = "http://178.62.89.213/client";
+$default = "http://178.62.89.213/client/";
 
 if(!isset($_GET['serve']) || $_GET['serve'] == ""){
     echo "Nothing to serve";
