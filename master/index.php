@@ -14,7 +14,7 @@
     ]];
 */
 
-$default = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
+$default = "http://178.62.89.213/client";
 
 if(!isset($_GET['serve']) || $_GET['serve'] == ""){
     echo "Nothing to serve";
