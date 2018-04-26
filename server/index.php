@@ -14,7 +14,7 @@
     ]];
 */
 
-$default = "http://cdn.selfcdn.org/";
+$default = "http://selfcdn.org/client/";
 
 if(!isset($_GET['serve']) || $_GET['serve'] == ""){
     echo "Nothing to serve";
