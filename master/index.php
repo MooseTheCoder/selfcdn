@@ -21,7 +21,7 @@ if(!isset($_GET['serve']) || $_GET['serve'] == ""){
     exit;
 }
 
-$region = json_decode(file_get_contents('https://ipinfo.io/'.$_SERVER['REMOTE_ADDR'].'/json'));
+$region = json_decode(file_get_contents('https://ipinfo.io/'.$_SERVER['REMOTE_ADDR'].'/json'),true);
 
 $region = $region['country'];
 
