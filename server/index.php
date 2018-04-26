@@ -32,6 +32,7 @@ $servers = json_decode(file_get_contents('servers'),true);
 $host = "";
 
 if(!isset($servers[$region])){
+    error_log('NO '.$region.' REGION');
     $host = $default.$serve;
 }else{
     $host = $servers[$region][array_rand($servers[$region],1)];
