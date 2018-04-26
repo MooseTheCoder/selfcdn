@@ -38,4 +38,4 @@ if(!isset($servers[$region])){
 }
 echo $host;
 
-header('Location: '.$host.$serve);
+header('Location: '.$host);
