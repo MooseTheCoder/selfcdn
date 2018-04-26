@@ -36,3 +36,4 @@ Contact me if you want to remove your server from the list.
 - Auto Add to servers list
 - Remove from servers list
 - Check server status before redirect
+- In house IP region finder
