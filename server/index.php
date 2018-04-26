@@ -35,8 +35,7 @@ if(!isset($servers[$region])){
     error_log('NO '.$region.' REGION');
     $host = $default.$serve;
 }else{
-    $host = $servers[$region][array_rand($servers[$region],1)];
+    $host = $servers[$region][array_rand($servers[$region],1)].$serve;
 }
-echo $host;
 
 header('Location: '.$host);
