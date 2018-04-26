@@ -1,5 +1,19 @@
 <?php
 //root config
+/*
+    ['US'=>[
+        'server',
+        'server',
+        'server',
+        'server',
+    ],'UK'=>[
+        'server',
+        'server',
+        'server',
+        'server',
+    ]];
+*/
+
 $default = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
 
 if(!isset($_GET['serve']) || $_GET['serve'] == ""){
@@ -23,19 +37,5 @@ if(!isset($servers[$region])){
     $host = $servers[$region][array_rand($servers[$region],1)];
 }
 echo $host;
-exit;
-header('Location: '.$host.$serve);
 
-/*
-    ['US'=>[
-        'server',
-        'server',
-        'server',
-        'server',
-    ],'UK'=>[
-        'server',
-        'server',
-        'server',
-        'server',
-    ]];
-*/
+header('Location: '.$host.$serve);
