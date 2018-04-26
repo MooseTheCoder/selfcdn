@@ -17,7 +17,13 @@
 $default = "http://selfcdn.org/client/";
 
 if(!isset($_GET['serve']) || $_GET['serve'] == ""){
-    echo "Nothing to serve";
+    //Get list of things to serve
+    $canServe = array_diff(scandir('client'),['..','.']);
+    $e="<h1>Nothing to serve, but here is what we have!</h1><br />";
+    foreach($canServe as $serve){
+        $e.=$serve . "| http://selfcdn.org/?serve=".$serve." <br />";
+    }
+    echo $e;
     exit;
 }
 
