@@ -1,47 +1,53 @@
 <?php
-//root config
-/*
-    ['US'=>[
-        'server',
-        'server',
-        'server',
-        'server',
-    ],'UK'=>[
-        'server',
-        'server',
-        'server',
-        'server',
-    ]];
-*/
 
-$default = "http://selfcdn.org/client/";
+CONST _DEFAULT = "http://selfcdn.org/client/";
+function findRequestRegion(){
+    $region = json_decode(file_get_contents('https://ipinfo.io/'.$_SERVER['REMOTE_ADDR'].'/json'),true);
+    return $region['country'];
+}
 
-if(!isset($_GET['serve']) || $_GET['serve'] == ""){
-    //Get list of things to serve
-    $canServe = array_diff(scandir('client'),['..','.']);
-    $e="<h1>Nothing to serve, but here is what we have!</h1><br />";
-    foreach($canServe as $serve){
-        $e.=$serve . "| http://selfcdn.org/?serve=".$serve." <br />";
+function pickServer($region){
+    $serve = $_GET['serve'];
+    $servers = json_decode(file_get_contents('servers'),true);
+    $host = "";
+    
+    if(!isset($servers[$region])){
+        error_log('NO '.$region.' REGION');
+        $host = _DEFAULT.$serve;
+    }else{
+        $host = $servers[$region][array_rand($servers[$region],1)].$serve;
     }
-    echo $e;
-    exit;
+
+    if(checkFoundServerFileSum($host,$serve)){
+        header('Location: '.$host);
+        exit;
+    }
+
+    pickServer($region);
+
 }
 
-$region = json_decode(file_get_contents('https://ipinfo.io/'.$_SERVER['REMOTE_ADDR'].'/json'),true);
-
-$region = $region['country'];
-
-$serve = $_GET['serve'];
-
-$servers = json_decode(file_get_contents('servers'),true);
-
-$host = "";
-
-if(!isset($servers[$region])){
-    error_log('NO '.$region.' REGION');
-    $host = $default.$serve;
-}else{
-    $host = $servers[$region][array_rand($servers[$region],1)].$serve;
+function checkFoundServerFileSum($host,$serve){
+    $remote = md5(file_get_contents($host));
+    $local = md5(file_get_contents(_DEFAULT.$serve));
+    if(!$local === $remote){
+        return false;
+    }
+    return true;
 }
 
-header('Location: '.$host);
+function startCdnRequest(){
+    if(!isset($_GET['serve']) || $_GET['serve'] == ""){
+        //Get list of things to serve
+        $canServe = array_diff(scandir('client'),['..','.']);
+        $e="<h1>Nothing to serve, but here is what we have!</h1><br />";
+        foreach($canServe as $serve){
+            $e.=$serve . "| http://selfcdn.org/?serve=".$serve." <br />";
+        }
+        echo $e;
+        exit;
+    }
+    pickServer(findRequestRegion());
+}
+
+startCdnRequest();
